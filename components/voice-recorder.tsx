@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import { Mic, Square, Play, Pause, RotateCcw, AlertTriangle } from "lucide-react"
 import { transcribeFromBlob, sendToWhisper, sendToWhisperHost } from "@/lib/audio"
-
+import { useAudioUnlock } from "@/hooks/useAudioUnlock"
+import { audioManager } from "@/lib/AudioManager"
 
 interface VoiceRecorderProps {
   isRecording: boolean
@@ -30,8 +31,11 @@ export function VoiceRecorder({ isRecording, onRecordingChange, onRecordingCompl
   const recognitionRef = useRef<any>(null)
   const allTranscriptsRef = useRef<string[]>([])
   const isRecordingRef = useRef(false)
+  const { unlockAudio } = useAudioUnlock()
 
   const startRecording = async () => {
+    audioManager.unlock()
+
     try {
       setPermissionDenied(false)
       setShowManualInput(false)
@@ -120,7 +124,6 @@ export function VoiceRecorder({ isRecording, onRecordingChange, onRecordingCompl
     onRecordingChange(false)
 
     setTimeout(() => {
-
       console.log(transcript)
 
       // Kết hợp tất cả transcripts đã thu được

@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react"
 import type { AnalysisResult } from "./reading-practice"
 import { AlertCircle, Pause, Volume2, Star, Trophy, Target, TrendingUp } from "lucide-react"
+import { useAudioUnlock } from "@/hooks/useAudioUnlock"
+import { audioManager } from "@/lib/AudioManager"
+
 
 interface FeedbackDisplayProps {
   analysis: AnalysisResult
@@ -13,23 +16,30 @@ interface FeedbackDisplayProps {
 export function FeedbackDisplay({ analysis, originalText, recordedText }: FeedbackDisplayProps) {
   const [showCelebration, setShowCelebration] = useState(false)
   const [animatedScore, setAnimatedScore] = useState(0)
+  const { playSound } = useAudioUnlock()
 
   useEffect(() => {
+    // if (analysis.isPerfect) {
+    //   setShowCelebration(true)
+    //   // Play celebration sound
+    //   try {
+    //     const audio = new Audio("/celebration.mp3")
+    //     audio.volume = 0.5
+    //     audio.play().catch(() => {})
+    //   } catch {}
+    // } else {
+    //   // Play celebration sound
+    //   try {
+    //     const audio = new Audio("/done.mp3")
+    //     audio.volume = 0.5
+    //     audio.play().catch(() => {})
+    //   } catch {}
+    // }
+
     if (analysis.isPerfect) {
-      setShowCelebration(true)
-      // Play celebration sound
-      try {
-        const audio = new Audio("/celebration.mp3")
-        audio.volume = 0.5
-        audio.play().catch(() => {})
-      } catch {}
+      audioManager.play("perfect", 0.5)
     } else {
-      // Play celebration sound
-      try {
-        const audio = new Audio("/done.mp3")
-        audio.volume = 0.5
-        audio.play().catch(() => {})
-      } catch {}
+      audioManager.play("done", 0.4)
     }
 
     // Animate score
