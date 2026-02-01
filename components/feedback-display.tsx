@@ -23,6 +23,13 @@ export function FeedbackDisplay({ analysis, originalText, recordedText }: Feedba
         audio.volume = 0.5
         audio.play().catch(() => {})
       } catch {}
+    } else {
+      // Play celebration sound
+      try {
+        const audio = new Audio("/done.mp3")
+        audio.volume = 0.5
+        audio.play().catch(() => {})
+      } catch {}
     }
 
     // Animate score

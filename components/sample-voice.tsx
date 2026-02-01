@@ -88,7 +88,7 @@ export function SampleVoice({ text, onListened }: SampleVoiceProps) {
 
     // Set pitch based on gender selection
     if (selectedVoice === "female") {
-      utterance.pitch = 1.1   // 👈 GIỌNG NỮ DỄ NGHE
+      utterance.pitch = 1.1 // 👈 GIỌNG NỮ DỄ NGHE
     } else {
       utterance.pitch = 0.95  // 👈 GIỌNG NAM TRẦM ỔN
     }
